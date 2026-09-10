@@ -27,11 +27,11 @@ local Tabs = {
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
 
-Tabs.Main.Visible = false
-Tabs.Tools.Visible = false
-Tabs.Exploits.Visible = false
-Tabs.Misc.Visible = false
-Tabs["UI Settings"].Visible = false
+Tabs.Main:Hide()
+Tabs.Tools:Hide()
+Tabs.Exploits:Hide()
+Tabs.Misc:Hide()
+Tabs["UI Settings"]:Hide()
 
 local KeyTab = Tabs.Key
 
@@ -47,9 +47,10 @@ KeyTab:AddLabel({
 	Size = 16,
 })
 
-KeyTab:AddImage("rbxassetid://90997086745748", {
-	Height = 120,
-	Width = 120,
+KeyTab:AddLabel({
+	Text = "💧 Watery Hub 💧",
+	DoesWrap = true,
+	Size = 20,
 })
 
 KeyTab:AddDivider()
@@ -72,12 +73,12 @@ KeyTab:AddKeyBox(function(ReceivedKey)
 			Time = 5,
 		})
 
-		Tabs.Main.Visible = true
-		Tabs.Tools.Visible = true
-		Tabs.Exploits.Visible = true
-		Tabs.Misc.Visible = true
-		Tabs["UI Settings"].Visible = true
-		Tabs.Key.Visible = false
+		Tabs.Main:Show()
+		Tabs.Tools:Show()
+		Tabs.Exploits:Show()
+		Tabs.Misc:Show()
+		Tabs["UI Settings"]:Show()
+		Tabs.Key:Hide()
 
 	else
 
@@ -88,6 +89,7 @@ KeyTab:AddKeyBox(function(ReceivedKey)
 		})
 	end
 end)
+
 
 local MainBox = Tabs.Main:AddGroupbox({
 	Side = "Left",
@@ -103,19 +105,23 @@ MainBox:AddLabel({
 MainBox:AddToggle("ExampleToggle", {
 	Text = "Example Toggle",
 	Default = false,
+
 	Callback = function(Value)
-		print("Main Toggle:", Value)
+		print(Value)
 	end,
 })
 
 MainBox:AddButton({
-	Text = "Example Button",
+	Text = "Test Button",
+
 	Func = function()
+
 		Library:Notify({
 			Title = "Watery",
-			Description = "Button pressed",
+			Description = "Button Pressed",
 			Time = 3,
 		})
+
 	end,
 })
 
@@ -132,13 +138,12 @@ ToolsBox:AddLabel({
 })
 
 ToolsBox:AddButton({
-	Text = "Example Tool",
+	Text = "Tool Test",
+
 	Func = function()
-		print("Tool activated")
+		print("Tool Activated")
 	end,
 })
-
-
 local ExploitBox = Tabs.Exploits:AddGroupbox({
 	Side = "Left",
 	Name = "Exploits",
@@ -153,8 +158,9 @@ ExploitBox:AddLabel({
 ExploitBox:AddToggle("ExploitToggle", {
 	Text = "Example Exploit",
 	Default = false,
+
 	Callback = function(Value)
-		print("Exploit Toggle:", Value)
+		print("Exploit:", Value)
 	end,
 })
 
@@ -165,62 +171,77 @@ local MiscBox = Tabs.Misc:AddGroupbox({
 })
 
 MiscBox:AddLabel({
-	Text = "Miscellaneous Settings",
+	Text = "Misc Settings",
 	DoesWrap = true,
 	Size = 16,
 })
 
 MiscBox:AddButton({
-	Text = "Notify Test",
+	Text = "Test Notification",
+
 	Func = function()
+
 		Library:Notify({
 			Title = "Watery",
-			Description = "Everything works!",
+			Description = "Everything is working!",
 			Time = 3,
 		})
+
 	end,
 })
+
+
 local MenuGroup = Tabs["UI Settings"]:AddGroupbox({
 	Side = "Left",
 	Name = "Menu",
 	IconName = "wrench",
 })
 
+
 MenuGroup:AddToggle("KeybindMenuOpen", {
 	Default = Library.KeybindFrame.Visible,
 	Text = "Open Keybind Menu",
+
 	Callback = function(Value)
 		Library.KeybindFrame.Visible = Value
 	end,
 })
 
+
 MenuGroup:AddToggle("ShowCustomCursor", {
 	Text = "Custom Cursor",
 	Default = Library.ShowCustomCursor,
+
 	Callback = function(Value)
 		Library.ShowCustomCursor = Value
 	end,
 })
 
+
 MenuGroup:AddToggle("AlwaysOnTop", {
 	Text = "Always On Top",
 	Default = Window.AlwaysOnTop,
+
 	Callback = function(Value)
 		Window:SetAlwaysOnTop(Value)
 	end,
 })
+
 
 MenuGroup:AddDropdown("NotificationSide", {
 	Values = {
 		"Left",
 		"Right"
 	},
+
 	Default = "Right",
 	Text = "Notification Side",
+
 	Callback = function(Value)
 		Library:SetNotifySide(Value)
 	end,
 })
+
 
 MenuGroup:AddSlider("UICornerSlider", {
 	Text = "Corner Radius",
@@ -228,14 +249,22 @@ MenuGroup:AddSlider("UICornerSlider", {
 	Min = 0,
 	Max = 20,
 	Rounding = 0,
+
 	Callback = function(Value)
 		Window:SetCornerRadius(Value)
 	end,
 })
 
+
 MenuGroup:AddDivider()
 
-MenuGroup:AddLabel("Menu Bind")
+
+MenuGroup:AddLabel({
+	Text = "Menu Bind",
+	DoesWrap = true,
+	Size = 14,
+})
+
 
 MenuGroup:AddKeyPicker("MenuKeybind", {
 	Default = "RightShift",
@@ -243,29 +272,39 @@ MenuGroup:AddKeyPicker("MenuKeybind", {
 	Text = "Menu Keybind",
 })
 
+
 MenuGroup:AddButton({
 	Text = "Unload",
+
 	Func = function()
 		Library:Unload()
 	end,
 })
 
+
 Library.ToggleKeybind = Options.MenuKeybind
+
 
 ThemeManager:SetLibrary(Library)
 SaveManager:SetLibrary(Library)
 
+
 SaveManager:IgnoreThemeSettings()
+
 
 SaveManager:SetIgnoreIndexes({
 	"MenuKeybind"
 })
 
+
 ThemeManager:SetFolder("WateryHub")
 SaveManager:SetFolder("WateryHub/configs")
 
+
 SaveManager:BuildConfigSection(Tabs["UI Settings"])
 
+
 ThemeManager:ApplyToTab(Tabs["UI Settings"])
+
 
 SaveManager:LoadAutoloadConfig()
