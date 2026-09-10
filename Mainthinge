@@ -39,11 +39,22 @@ local Window = Library:CreateWindow({
 -- You do not have to set your tabs & groups up this way, just a prefrence.
 -- You can find more icons in https://lucide.dev/
 local Tabs = {
-	-- Creates a new tab titled Main
-	Main = Window:AddTab("Main", "user"),
 	Key = Window:AddKeyTab("Key System"),
+
+	Main = Window:AddTab("Main", "user"),
+	Tools = Window:AddTab("Tools", "wrench"),
+	Exploits = Window:AddTab("Exploits", "zap"),
+	Misc = Window:AddTab("Misc", "settings"),
+
 	["UI Settings"] = Window:AddTab("UI Settings", "settings"),
 }
+Tabs.Main.Visible = true
+Tabs.Tools.Visible = true
+Tabs.Exploits.Visible = true
+Tabs.Misc.Visible = true
+Tabs["UI Settings"].Visible = true
+
+Tabs.Key.Visible = false
 
 
 --[[
@@ -687,20 +698,26 @@ local TabBox = Tabs.Main:AddRightTabbox() -- Add Tabbox on right side
 local Tab1 = TabBox:AddTab("Tab 1")
 Tab1:AddToggle("Tab1Toggle", { Text = "Tab1 Toggle" })
 
+Tabs.Key:AddImage("rbxassetid://90997086745748", {
+	Height = 100,
+	Width = 100,
+})
+
 local Tab2 = TabBox:AddTab("Tab 2")
 Tab2:AddToggle("Tab2Toggle", { Text = "Tab2 Toggle" })
 
-Library:OnUnload(function()
-	print("Unloaded!")
-end)
+if Success then
+	Tabs.Main.Visible = true
+	Tabs["UI Settings"].Visible = true
+	Tabs.Key.Visible = false
 
 -- Cool Key Screen
 local KeyTab = Tabs.Key
 
-KeyTab:AddLabel({
-	Text = "🌊 Aqua Access System 🌊",
+Tabs.Key:AddLabel({
+	Text = "🌊 Watery 🌊\nThe Aqua Access System\n\nThe key is literally Aqua\nI am the self galziest",
 	DoesWrap = true,
-	Size = 20,
+	Size = 18,
 })
 
 KeyTab:AddLabel({
@@ -723,7 +740,7 @@ KeyTab:AddKeyBox(function(ReceivedKey)
 	if Success then
 		Library:Notify({
 			Title = "✅ Access Granted",
-			Description = "Welcome to Aqua Hub!",
+			Description = "Welcome to Wattery!",
 			Time = 5,
 		})
 	else
